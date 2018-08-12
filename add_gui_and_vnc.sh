@@ -4,12 +4,13 @@ if [ $(id -u) -eq 0 ]; then
     read -s -p "Enter password : " PASS
 
     apt update
-    apt upgrade -y -q --force-yes
+    apt upgrade -y -q
 
     useradd -m -p $(openssl passwd -1 $PASS) $USER
     usermod -aG sudo $USER
+    usermod -aG admin $USER
 
-    apt install ubuntu-desktop ubuntu-gnome-desktop gnome-core tightvncserver -y -q
+    apt install ubuntu-desktop tightvncserver -y -q
 
     echo '[Unit]'                                                       >> /etc/systemd/system/vncserver.service
     echo 'Description=Start TightVNC server at startup'                 >> /etc/systemd/system/vncserver.service
